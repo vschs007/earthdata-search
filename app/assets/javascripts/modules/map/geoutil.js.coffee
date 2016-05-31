@@ -25,38 +25,8 @@ ns.geoutil = do (L, Coordinate = ns.Coordinate, Arc = ns.Arc, config = @edsc.con
 
   # Given two points, returns their midpoint along the shortest great circle between them.  The
   # two points may not be antipodal, since such a midpoint would be undefined
+  gcInterpolate = window.edscgeo.gcInterpolate
   gcInterpolate = (p1, p2) ->
-    do (abs=Math.abs, asin=Math.asin, sqrt=Math.sqrt, pow=Math.pow, sin=Math.sin, cos=Math.cos, atan2=Math.atan2) ->
-      return p1 if abs(p1.lat) == abs(p2.lat) == 90
-
-      [p1, p2] = [p2, p1] if p2.lng < p1.lng
-
-      lat1 = p1.lat * DEG_TO_RAD
-      lon1 = p1.lng * DEG_TO_RAD
-      lat2 = p2.lat * DEG_TO_RAD
-      lon2 = p2.lng * DEG_TO_RAD
-
-      # http://williams.best.vwh.net/avform.htm#Dist
-      d = 2 * asin(sqrt(pow(sin((lat1 - lat2) / 2), 2) +
-                        cos(lat1) * cos(lat2) * pow(sin((lon1 - lon2) / 2), 2)))
-
-      # http://williams.best.vwh.net/avform.htm#Intermediate
-      # This is a special case where f = 1/2 and therefore A = B, allowing us
-      # to simplify a few expressions
-      AB = sin(d / 2) / sin(d)
-      x = AB * (cos(lat1) * cos(lon1) +  cos(lat2) * cos(lon2))
-      y = AB * (cos(lat1) * sin(lon1) +  cos(lat2) * sin(lon2))
-      z = AB * (sin(lat1)             +  sin(lat2))
-      lat = RAD_TO_DEG * atan2(z, sqrt(x*x + y*y))
-      lon = RAD_TO_DEG * atan2(y, x)
-
-      # Guard against the points being the same or antipodal
-      return p1 if isNaN(lat) || isNaN(lon)
-
-      lon += 360 while lon < p1.lng - EPSILON
-      lon -= 360 while lon > p2.lng + EPSILON
-
-      latLng(lat, lon)
 
   # Determines the initial course direction from latlng1 setting off toward latlng2
   _course = (latlng1, latlng2) ->
@@ -168,6 +138,8 @@ ns.geoutil = do (L, Coordinate = ns.Coordinate, Arc = ns.Arc, config = @edsc.con
         0
     else
       0
+
+  calculateArea = window.edscgeo.area
 
   # Calculates the area within the given latlngs
   calculateArea = (origLatlngs) ->
@@ -444,6 +416,9 @@ ns.geoutil = do (L, Coordinate = ns.Coordinate, Arc = ns.Arc, config = @edsc.con
       interiors.unshift(interior)
 
     {interiors: interiors, boundaries: boundaries}
+
+  simplifyPolygon = (points, desiredCount) ->
+
 
   exports =
     gcInterpolate: gcInterpolate

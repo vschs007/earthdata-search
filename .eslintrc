@@ -1,0 +1,11 @@
+{
+  "extends": "airbnb",
+  "rules": {
+    "no-console": "off",
+    "comma-dangle": "off",
+    "brace-style": [2, "stroustrup"],
+    "max-len": [2, {
+      "code": 100
+     }]
+  }
+}

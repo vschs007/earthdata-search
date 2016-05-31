@@ -1,0 +1,44 @@
+{
+  "name": "edsc-geo",
+  "main": "src/index.jsx",
+  "description": "Geospatial utility libraries for Earthdata Search",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nasa/earthdata-search.git"
+  },
+  "copyright": {
+    "year": "© 2007-2014",
+    "organization": "United States Government as represented by the Administrator of the National Aeronautics and Space Administration. All Rights Reserved."
+  },
+  "author": {
+    "name": "Patrick Quinn",
+    "email": "patrick@element84.com"
+  },
+  "maintainers": [
+    {
+      "name": "Patrick Quinn",
+      "email": "patrick@element84.com"
+    },
+    {
+      "name": "Bo Sun",
+      "email": "bosun58@gmail.com"
+    }
+  ],
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "babel-cli": "^6.9.0",
+    "babel-core": "^6.1.2",
+    "babel-loader": "^6.1.0",
+    "babel-preset-es2015": "^6.1.2",
+    "jasmine": "^2.3.2",
+    "jasmine-core": "^2.3.4",
+    "jasmine-reporters": "^2.0.7",
+    "webpack": "^1.12.1"
+  },
+  "scripts": {
+    "prepublish": "../../node_modules/.bin/webpack -p",
+    "start": "../../node_modules/.bin/webpack -w",
+    "test": "../../node_modules/.bin/babel-node spec/run.jsx"
+  }
+}
